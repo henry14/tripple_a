@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{% trans "Digital Medical Portal" %}{% endblock %}
+{% block content %}
+<div class="col s12 m12 l12">
+  <div class="container">
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
+<style>
+  h1{
+    font-size:1.2em;
+  }
+  p{
+    font-size:1.2em;
+    text-align:justify;
+  }
+</style>
+<div class="card" style="color:#777; padding:1em;">
+<div class="card-title"><strong>{% trans "Digital Medical Portal" %}</strong></div>
+  {% load viewflow material_frontend %}
+  {% load material_form %}
+
+  <!-- Overrides the default materialize css for h1-->
+  <img style="padding:0.2em;margin-left:0.2em;" src="{% static 'images/logo.png' %}" class="img-thumbnail img-rounded logo-img" alt="" width="120px">
+
+<p>
+  <p>
+    {% if not request.user.is_authenticated %}
+      <p>We are here to save lives,
+      <a href="{% url 'account_login' %}"><span class="btn">click here</span></a>
+      to get started.
+    </p>
+    {% endif %}
+  </p>
+  <p>
+     For help or inquiries: <strong>+2567XXXXXXXX</strong>
+  </p>
+
+
+{% endblock %}
+</div>
+</div>
+</div>
+

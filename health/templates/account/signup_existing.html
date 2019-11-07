@@ -1,0 +1,42 @@
+{% extends 'activate_account_base.html' %}
+{% load viewflow material_form material_frontend %}
+{% load i18n %}
+
+{% block content %}
+<div class="left-panel">
+    <div class="card">
+      {% if messages %}
+       <style>
+    .error{
+      color:red;
+    }
+    .success{
+      color:green;
+    }
+  </style>
+  <ul class="messages">
+    {% for message in messages %}
+    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+        <form role="form" method="POST">
+          <h3 class="card-title" style="padding-left:1.2em; padding-top:1.5em;">{% trans "Set a password for your account" %}</h3>
+          <img style="padding:0.2em;margin-left:0.2em;"
+               src="https://membershiprw.s3.amazonaws.com/upload/files/irpv_logo.png"
+               class="img-thumbnail img-rounded logo-img" alt="IRPV" width="120px">
+            <div class="card-content">
+                    {% csrf_token %}
+                 {% form form=form %}{% endform %}
+            </div>
+            <div class="card-action row">
+              <h6> if you need any assistance please call help desk : <b>+250 786 191 489 </b></h6>
+                <div class="col s12 right-align">
+                    <button class="btn" type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

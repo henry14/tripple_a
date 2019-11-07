@@ -1,0 +1,56 @@
+{% load thumbnail i18n static %}
+
+
+<style>
+    ul {
+        color: #006064;
+    }
+
+    li {
+        border-bottom: 0.01em solid #e1f5fe;
+    }
+
+    li:hover {
+        background: #e0f2f1;
+    }
+</style>
+
+
+{% load i18n static material_form %}
+
+{% block menu %}
+
+<style>
+    .collection {
+        /*background-color: ;
+      /*!*	display: flex;*/
+        /*flex-direction: column;*/
+        /*widith: 50%;*!*/
+    }
+
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    });
+</script>
+<div class="container">
+    <a href="#" data-activates="slide-out" class="button-collapse top-nav full show-on-small-only"><i
+            class="mdi-navigation-menu"></i></a>
+</div>
+<ul class="left hide-on-med-and-down card-content" id='side-menu'
+    style="font-size:14px; text-align:center; background:#5a5a5a;">
+    <li class="bold">
+        <a href="{% url 'ambulances:emergency:start' %}" class="collection-item">
+            <i class="material-icons white-text text-darken-2">attach_money</i><br>
+            <p class="white-text">Emergency Request</p></a>
+    </li>
+    <li class="bold">
+        <a href="{% url 'services:question_list' %}" class="collection-item">
+            <i class="material-icons white-text text-darken-2">swap_calls</i>
+            <p class="white-text">Questions</p>
+        </a>
+    </li>
+</ul>
+{% endblock menu %}

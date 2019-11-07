@@ -1,0 +1,39 @@
+{% load i18n static material_form %}
+
+{% block mobile_menu %}
+
+<style>
+    .collection {
+        /*background-color: ;
+    /*	display: flex;
+        flex-direction: column;
+        widith: 50%;*/
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    });
+</script>
+<div class="container">
+    <a href="#" data-activates="slide-out" class="button-collapse top-nav full show-on-small-only"><i
+            class="mdi-navigation-menu"></i></a>
+</div>
+<ul id="slide-out" class="sidenav">
+    <li class="bold">
+        <a href="{% url 'ambulances:emergency:start' %}" class="collection-item">
+            <i class="material-icons grey-text text-darken-2">attach_money</i>
+            <p class="red-text">Emergency Request</p>
+        </a>
+    </li>
+    <li class="bold">
+        <a href="{% url 'services:question_list' %}" class="collection-item">
+            <i class="material-icons grey-text text-darken-2">swap_calls</i>
+            <p class="red-text">Questions</p>
+        </a>
+    </li>
+
+</ul>
+
+{% endblock mobile_menu %}

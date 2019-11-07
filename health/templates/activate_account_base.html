@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<link>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>{% block title %}
+  IRPV Digital Portal
+  {% endblock title %}
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<style>
+  .card{
+    padding:8px;
+  }
+  .alert{
+    padding-left:1em;
+    padding-top:0.2em;
+    padding-bottom:0.2em;
+  }
+    .alert-info{
+      background:#d2ffdc;
+    }
+.alert-success{
+background:#d2ffdc;
+}
+.alert-warning{
+background:#ff9800;
+}
+.alert-error{
+background:#f44336;
+}
+hr.style-one {
+    border: 1px;
+    height: 3px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+
+
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+{% block django-material %}
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
+{% endblock django-material %}
+
+</head>
+<body>
+{% load thumbnail i18n static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/project.css' %}">
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper">
+      <a class="brand-logo hide-on-med-and-down" href="{% url 'about' %}">
+        <a class="brand-logo hide-on-med-and-down" href="{% url 'about' %}">
+          <img style="padding:0.2em;margin-left:0.2em;"
+               src="https://membershiprw.s3.amazonaws.com/upload/files/irpv_logo.png"
+               class="img-thumbnail img-rounded logo-img" alt="IRPV" width="60px">
+        </a>
+      </a>
+      <ul id="nav-mobile collection" class="right" style="padding-right:2em;">
+        <li class="brand-logo center"> IRPV Digital Portal </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="container">
+  {% if messages %}
+  <div class="row teal-text">
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+    {% endfor %}
+  </div>
+
+  {% endif %}
+  {% block content %}
+
+
+  {% endblock %}
+</div> <!-- /container -->
+{% block modal %}{% endblock modal %}
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+{% block javascript %}
+"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<style>
+      .select2-container{
+        min-width:2em;
+      }
+      .help-block{
+          padding-top:1em;
+      }
+
+      label{
+        color:#333;
+      }
+
+
+</style>
+<script> src="{% static 'js/project.js' %}"</script>
+{% endblock javascript %}
+
+</body>
+</html>
+

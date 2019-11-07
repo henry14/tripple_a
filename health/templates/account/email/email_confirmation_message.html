@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+<br>
+Hello there!<br>
+
+<p>You are receiving this e-mail because {{ user_display }} has given yours as an e-mail address to register
+  to the Institute of Real Property Valuers Rwanda.</p>
+
+<p>To confirm this as your email go to <a href="{{ activate_url }}">Link</a></p>
+
+<p>If cannot click on the link copy and paste it into your browser</p>
+
+<p>If this was sent in error or just ignore the email.</p>
+
+{% endblocktrans %}{% endautoescape %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+<p>Best regards,
+  Support Team</p>
+{% endblocktrans %}
+
+
+</body>
+</html>

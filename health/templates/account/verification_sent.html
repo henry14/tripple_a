@@ -1,0 +1,25 @@
+{% extends "activate_account_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-content">
+    <img style="padding:0.2em;margin-left:0.2em;"
+                   src="https://membershiprw.s3.amazonaws.com/upload/files/irpv_logo.png"
+                   class="img-thumbnail img-rounded logo-img" alt="IRPV" width="120px">
+    <h5>{% trans "We need to verify your E-mail Address" %}</h5>
+
+    <p>{% blocktrans %}
+<div class="alert alert-info" style="font-size:1.2em;"> An email has been sent to the email address your email address with.<br>
+  Please click on the link specified in that email to verify your email address.
+
+       {% endblocktrans %}</p>
+    <strong> For further enquiries contact us on +250 786 191 489.</strong>
+  </div>
+  </div>
+</div>
+{% endblock %}
+

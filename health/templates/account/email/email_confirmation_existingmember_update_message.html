@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+{% autoescape off %}
+
+<p>Dear {{ user }}!</p>
+
+
+<p>Thanks for requesting to activate your IRPV Account.</p>
+
+<p>To activate your account click <a href="{{ activate_url }}"> this link </a>.</p>
+
+<p>You will need to set a password.</p>
+
+{% endautoescape %}
+<p>
+  Best regards,<br><br>
+  Support Team</p>
+
+<p>For assistance.</p>
+<p>Call: Help Desk,<br>
+     Tel : +250 786 191 489<br>
+  Or Email:helpdesk@informatics.africa</p>
+</body>
+</html>

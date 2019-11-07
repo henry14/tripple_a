@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load thumbnail i18n static %}
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+    {% load static i18n compress %}
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="{% static 'devbridge/jquery.autocomplete.devbridge.js' %}" type="text/javascript"></script>
+    {% block django-material %}
+        {% include 'material/includes/material_css.html' %}
+        {% include 'material/includes/material_js.html' %}
+    {% endblock django-material %}
+  <style>
+    .nav-wrapper .brand-logo img {
+      height: 2em;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
+
+    {% block css %}
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+            integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/project.css' %}">
+    {% endblock css %}
+</head>
+<body>
+<header>
+  <nav class="top-nav">
+    <div class="container">
+      <div class="navbar-fixed">
+        <div class="nav-wrapper">
+          <a href="#" data-target="slide-out" class="sidenav-trigger">
+            <i class="material-icons">menu</i>
+          </a>
+          <a class="brand-logo center hide-on-med-and-down">Health</a>
+          <ul id="nav-mobile" class="right">
+              {% if request.user.is_authenticated %}
+                <li class="hide-on-small-only">
+                  <a href="">{{ request.user.username }}</a>
+                </li>
+                <li>
+                  <a href="{% url 'account_logout' %}" id="sign-out-link">Logout</a>
+                </li>
+              {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+    {% if request.user.is_authenticated %}
+        {% block mobile_menu %}
+            {% include 'mobile_menu.html' %}
+        {% endblock mobile_menu %}
+        {% block menu %}
+            {% include 'menu.html' %}
+        {% endblock menu %}
+    {% endif %}
+</header>
+{% block menu_block %}
+{% endblock menu_block %}
+<div class="container-fluid">
+    {% if message in messages %}
+      <div class="row teal-text">
+          {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+          {% endfor %}
+      </div>
+    {% endif %}
+  <div class="row" style="display: contents">
+      {% block content %}
+      {% endblock content %}
+  </div>
+</div>
+<footer>
+  {% block footer %}{% endblock footer %}
+  {% block custom-footer %}{% endblock custom-footer %}
+  {% block modal %}{% endblock modal %}
+  <script>
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    })
+  </script>
+
+</footer>
+</body>
+</html>
+

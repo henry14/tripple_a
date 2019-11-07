@@ -1,0 +1,27 @@
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+Hello {{ user_display }}!
+
+Thanks for requesting to activate your account.
+
+You have to activate your account by clicking the link {{ activate_url }}.
+
+This link will provide you with a form using which you will be able to activate your account
+by setting a password and username.
+
+Once the account is activated, you can update your contacts and passport photo and general BIO.
+
+For updates of other information such as qualifications or trainings received,
+You have to contact the institute directly.
+
+
+{% endblocktrans %}{% endautoescape %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+Best regards,
+Support Team
+{% endblocktrans %}
+
+

@@ -1,0 +1,23 @@
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+Hello there!
+
+You are receiving this e-mail because {{ user_display }} has given yours as an e-mail address to register
+to the Institute of Real Property Valuers.
+
+To confirm this as your email go to {{ activate_url }}
+
+If cannot click on the link copy and paste it into your browser
+
+If this was sent in error or just ignore the email.
+
+{% endblocktrans %}{% endautoescape %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+Best regards,
+Support Team
+{% endblocktrans %}
+
+

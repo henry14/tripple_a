@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load i18n material_form material_frontend %}
+
+{% block breadcrumbs_items %}
+<a class="active" href="{% url view.model|frontend_urlname:'list' %}">{{ view.model|verbose_name_plural|title }}</a>
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+<script type="text/javascript">
+    config = {
+    {
+        datatable_config | safe
+    }
+    };
+    config['ajax']['data'] = function (data) {
+        var keys = Object.keys(data);
+        for (var i = 0; i <= keys.length; i++) {
+            var key = keys[i],
+                value = data[key];
+            delete data[key];
+            data['datatable-' + key] = value;
+        }
+    };
+    config['ajax']['beforeSend'] = function (request) {
+        request.setRequestHeader("datatable", true);
+    };
+    {%
+        if view.list_actions %}
+    config['select'] = {
+        style: 'multi'
+    };
+    {%
+        endif %
+    }
+    $(document).one("turbolinks:load", function () {
+        if (!$.fn.DataTable.isDataTable('#table')) {
+            var datatable = $('#table').DataTable(config);
+            new $.fn.dataTable.FixedHeader(datatable);
+
+            $(document).one("turbolinks:before-cache", function () {
+                datatable.destroy();
+                $('input:checkbox').removeAttr('checked');
+                $('tr').removeClass('selected');
+                $('#actionCard').off()
+            });
+
+            {% if view.list_actions %}
+            // disable row select on a link click
+            datatable.on('user-select', function (e, dt, type, cell, originalEvent) {
+                if (originalEvent.target.tagName === 'A') {
+                    e.preventDefault();
+                }
+            })
+
+            $('#actionCard').on('click.actionForm', 'button', function (e) {
+                e.preventDefault();
+
+                var actionUrl = $('#actionCard select[name="action_url"]').val()
+                var selected = datatable.column(0).checkboxes.selected();
+                if (actionUrl && selected.length) {
+                    var actionForm = $("<form action='" + actionUrl + "' method='POST'>{% csrf_token %}</form>");
+                    for (i = 0; i < selected.length; i++) {
+                        actionForm.append('<input type="hidden" name="pk" value="' + selected[i] + '">');
+                    }
+                    $('body').append(actionForm);
+                    actionForm.submit();
+                }
+            })
+            {% endif %}
+        }
+        ;
+    });
+</script>
+{% endblock footer %}
+{% block content %}
+{% block left-panel %}
+<style>
+    td {
+        padding: 6px 2px;
+    }
+</style>
+<div class="col s12 m9 l9">
+    <div class="left-panel{% if not view.filterset and not view.list_actions %} wide{% endif %}">
+        <div class="card list-card">
+            <div class="card-content">
+                <table id="table" class="table bordered responsive-table striped" data-form-control="datatable"
+                       style="width:100%">
+                    <thead>
+                    <tr>
+                        {% if view.list_actions %}
+                        <th style="width:20px;padding-right:0">
+                            <label>
+                                <input class="filled-in" type="checkbox" id="action-toggle">
+                                <span></span>
+                            </label>
+                        </th>
+                        {% endif %}
+                        {% for header, header_title in headers %}
+                        <th data-name="{{ header }}" class="{{ header }} sorting_disabled">{{ header_title|title }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item, row in data %}
+                    <tr>
+                        {% if view.list_actions %}
+                        <td class="dt-body-center">
+                            <label>
+                                <input class="filled-in" type="checkbox" name="pk"
+                                       id="_selected_action_{{ forloop.counter }}" value="">
+                                <span></span>
+                            </label>
+                        </td>
+                        {% endif %}
+                        {% for column_name, item in row.items %}
+                        {% if column_name.0 != '_' %}
+                        <td>
+                            {% if column_name in view.datalist.list_display_links %}
+                            <a href="#">{{ item }}</a>
+                            {% else %}
+                            {{ item }}
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="card-action">
+                {% block list_actions %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock left-panel %}
+{% block right-panel %}
+{% if view.filterset or view.list_actions %}
+<div class="col s12 m3 l3">
+    {% if view.filterset != None %}
+    <form action=".." method="get" data-control-form>
+        {% csrf_token %}
+        <div class="card form-card">
+            <div class="card-content">
+                <span class="card-title">{% trans 'Filter' %}</span>
+                {% form form=view.filterset.form %}{% endform %}
+                <div class="right-align">
+                    <button type="submit" class="btn btn-default">{% trans 'Filter' %}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+    {% if view.list_actions %}
+    <div class="card form-card" id="actionCard">
+        <div class="card-content">
+            <div class="card-title">{% trans 'Action' %}</div>
+            <select name="action_url">
+                <option disabled selected>{% trans 'Choose your option' %}</option>
+                {% for title, url in view.list_actions %}
+                <option value="{{ url }}">{{ title }}</option>
+                {% endfor %}
+            </select>
+            <div class="card-actions right-align">
+                <button class="btn" type="submit" name="action">{% trans 'Go' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock right-panel %}
+{% endblock %}
